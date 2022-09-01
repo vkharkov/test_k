@@ -54,7 +54,8 @@ do {
             u.confirmed=1
             AND e.valid=1
             ". $idCursor."
-            AND DATE_FORMAT(FROM_UNIXTIME(e.checkts), '%%Y-%%m-%%d') = DATE_SUB(CURDATE(), INTERVAL %u DAY)
+            AND DATE_FORMAT(FROM_UNIXTIME(e.checkts), '%%Y-%%m-%%d') >= DATE_SUB(CURDATE(), INTERVAL %u DAY)
+            AND DATE_FORMAT(FROM_UNIXTIME(e.checkts), '%%Y-%%m-%%d') <= DATE_ADD(CURDATE(), INTERVAL %u DAY)
             AND DATE_FORMAT(FROM_UNIXTIME(u.validts), '%%Y-%%m-%%d') = DATE_ADD(CURDATE(), INTERVAL %u DAY)
             LIMIT 50
     ", (NOTIFICATION_INTERVAL - 1), NOTIFICATION_INTERVAL);
